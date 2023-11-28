@@ -48,12 +48,12 @@ class HBLModel():
         self.entradas = HBLEntradas(entradas,self._gpios)
         self.salidas  = HBLSalidas(salidas,self._gpios)
         self.leds     = HBLLeds(leds,self._gpios)
-        self.wiegand1 = HBLWiegandInput(wiegand1,self._gpios)
-        self.wiegand2 = HBLWiegandOutput(wiegand2,self._gpios)
-        #if self.pinesW1libres():
-        #    self.wiegand1 = HBLWiegandInput(wiegand1,self._gpios) 
-        #if self.pinesW2libres():
-        #    self.wiegand2 = HBLWiegandOutput(wiegand2,self._gpios)
+        self.wiegand1 = None
+        self.wiegand2 = None
+        if self.pinesW1libres():
+            self.wiegand1 = HBLWiegandInput(wiegand1,self._gpios) 
+        if self.pinesW2libres():
+            self.wiegand2 = HBLWiegandOutput(wiegand2,self._gpios)
             
         self._serial1 =  None
     
