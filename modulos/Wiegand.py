@@ -31,7 +31,7 @@ class HBLWiegandOutput(HBLWiegand):
         #self._gpios = GPIOS(self.pins,WiegandModo.WIEGANDOUT,"W")
         for pin in self.pins:
             self._gpios.setON(pin)
-    
+        
     def enviarWiegand34(self,valor :int ):
         i = 0 
  
@@ -39,27 +39,32 @@ class HBLWiegandOutput(HBLWiegand):
         
         #variable = "10000000001000010011110011"
         #36739686 = 1000000100011000010011010011001101
-        print("1000000100011000010011010011001101")
+
+        print(" ")
         print(variable)
-        
+        print("1000000100011000010011010011001101")
+
         while i < 34:
                        
             if int(variable.format(valor)[i],2)  == 0: 
                 self._gpios.setOFF(self.pins[0])#pi.write(__gpio_0, 0) 
-                time.sleep(0.00008) # sleep delay fall (std : 0.00008)
-                
+
+                time.sleep(0.00005) # sleep delay fall (std : 0.00008)
+
                 self._gpios.setON(self.pins[0])#pi.write(__gpio_0, 1) 
-                time.sleep(0.00024) # sleep delay rise (std : 0.00024) 
+                time.sleep(0.001) # sleep delay rise (std : 0.00024) 
                 #print("0")
             else: 
+                
                 self._gpios.setOFF(self.pins[1])#pi.write(__gpio_1, 0) 
-                time.sleep(0.00008) # sleep delay fall (std : 0.00008)
+                time.sleep(0.00005) # sleep delay fall (std : 0.00008)
+                
                 self._gpios.setON(self.pins[1])#pi.write(__gpio_1, 1) 
-                time.sleep(0.00024) # sleep delay rise (std : 0.00024)   
+                time.sleep(0.001) # sleep delay rise (std : 0.00024)   
                 #print("1")
             
             i = i + 1        
-    
+        
     def _codificarWiegand34(self,dni):
         
         dniBase = "1000000100011000010011010011001101"#en DEC : 36739686
@@ -108,8 +113,8 @@ class HBLWiegandInput(HBLWiegand):
     
     def __init__(self,pines,gpios : GPIOS = None,callback = None) -> None:
         super().__init__(pines,WiegandModo.WIEGANDIN,gpios,name="WD IN") 
-        for pin in self.pins:
-            self._gpios.setOFF(pin)
+        #for pin in self.pins:
+        #    self._gpios.setOFF(pin)
         
         self.__gpio_0 = self.pins[0]
         self.__gpio_1 = self.pins[1]
