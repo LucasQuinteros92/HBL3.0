@@ -1,9 +1,9 @@
 
 
-from modulos.GPIOs import *
+from modulos.perifericos.GPIOs import *
 from enum import Enum
 
-from modulos.GPIOs import GPIOS
+from modulos.perifericos.GPIOs import GPIOS
 class enumprueba(Enum):
         IN1 = 21
         IN2 = 20
@@ -11,9 +11,7 @@ class HBLIO():
     def __init__(self,pines,modo : GpioModo = GpioModo.OUTPUT,gpios = None,name = None) -> None:
         
         self._gpios = None
-        
-        
-        
+
         if isinstance(pines,type(Enum)):
             self.pins= [i.value for i in pines]
     

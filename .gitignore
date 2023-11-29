@@ -2,3 +2,12 @@ modulos/__pycache__/GPIOs.cpython-37.pyc
 modulos/__pycache__/HBLmodels.cpython-37.pyc
 modulos/__pycache__/IO.cpython-37.pyc
 modulos/__pycache__/Wiegand.cpython-37.pyc
+configuracion/__pycache__/Autoconfig.cpython-37.pyc
+configuracion/__pycache__/Settings.cpython-37.pyc
+modulos/__pycache__/Autoconfig.cpython-37.pyc
+modulos/__pycache__/Serial.cpython-37.pyc
+modulos/__pycache__/Settings.cpython-37.pyc
+modulos/perifericos/__pycache__/GPIOs.cpython-37.pyc
+modulos/perifericos/__pycache__/IO.cpython-37.pyc
+modulos/perifericos/__pycache__/Serial.cpython-37.pyc
+modulos/perifericos/__pycache__/Wiegand.cpython-37.pyc

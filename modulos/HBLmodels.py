@@ -1,8 +1,13 @@
+import configuracion.Autoconfig
 from enum import Enum
-from modulos.IO import *
-from modulos.Wiegand import *
+from modulos.perifericos.IO import *
+from modulos.perifericos.Wiegand import *
+from modulos.perifericos.Serial import *
+
+from configuracion.Settings import *
 
 class HBLModel():
+    
     class Leds(Enum):
         Led1 = 13
         Led2 = 19
@@ -11,12 +16,18 @@ class HBLModel():
             return f"{self.name}"
         def __get__(self,instance,owner):
             return self.value
+    
     class Salidas(Enum):
         OUT1 = 5
         OUT2 = 6
         OUT3 = 26
         OUT4 = 16
-
+        if not Wiegandcfg.W1cfg.activado:
+            OUT5 = 23
+            OUT6 = 24
+        if not Wiegandcfg.W2cfg.activado:
+            OUT7 = 17
+            OUT8 = 27
         def __repr__(self) -> str:
             return f"{self.name}"
         def __get__(self,instance,owner):
@@ -24,6 +35,7 @@ class HBLModel():
 
     class Entradas(Enum):
         pass
+    
     class Wiegand():
         class W1(Enum):
             WD0 = 23
@@ -35,13 +47,20 @@ class HBLModel():
             WD1 = 27
             def __get__(self,instance,owner):
                 return self.value
-            
+    
+    class Serial():
+        
+        class S1(Enum):
+            Rx = 2
+            Tx = 3
     def __init__(self,entradas,
                  salidas = Salidas,
                  leds    = Leds,
                  wiegand1 = Wiegand.W1,
-                 wiegand2 = Wiegand.W2) -> None:
+                 wiegand2 = Wiegand.W2,
+                 serial1  = Serial.S1 ) -> None:
         #genero instancia de pigpio
+        
         self._gpios = GPIOS()
         #lleno la misma instancia si lo paso como parametro
         #sino genero nuevos hilos de pigpio
@@ -50,13 +69,12 @@ class HBLModel():
         self.leds     = HBLLeds(leds,self._gpios)
         self.wiegand1 = None
         self.wiegand2 = None
-        if self.pinesW1libres():
-            self.wiegand1 = HBLWiegandInput(wiegand1,self._gpios) 
-        if self.pinesW2libres():
-            self.wiegand2 = HBLWiegandOutput(wiegand2,self._gpios)
-            
-        self._serial1 =  None
-    
+        self.serial1  = HBLSerial(serial1,self._gpios)
+        if Wiegandcfg.W1cfg.activado:
+            self.wiegand1 = HBLWiegand().iniciar(wiegand1,Wiegandcfg.W1cfg,self._gpios)
+        if Wiegandcfg.W2cfg.activado:
+            self.wiegand2 = HBLWiegand().iniciar(wiegand2,Wiegandcfg.W2cfg,self._gpios)
+
     def enviarWiegand34(self,numero : int):
         self.wiegand2.enviarWiegand34(numero)
     

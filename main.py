@@ -1,5 +1,8 @@
+
 from modulos.HBLmodels import *
+
 import time
+
 
 
 def hola(gpio,level,tick):
@@ -11,6 +14,7 @@ def hola(gpio,level,tick):
     hbl.leds.apagar(hbl.Leds.Led2)
     
 if __name__ =="__main__":
+    
     hbl = HBLnuevo()
     print(hbl)
     gpio = hbl.leerEntrada(hbl.Entradas.IN4)
@@ -23,12 +27,12 @@ if __name__ =="__main__":
     #hbl.leds.apagar(hbl.Leds.Led2)
     #time.sleep(1)
     #print(hbl)
-    while True:
+    #while True:
         #pass
-        time.sleep(1)
-        hbl.wiegand2.enviarWiegand34(36739686)
+        #time.sleep(1)
+        #hbl.wiegand2.enviarWiegand34(36739686)
         #if hbl.wiegand1.wiegandDisponible():
         #    
-        #    print(hbl.wiegand1.leerDatoWiegand())
+        #   print(hbl.wiegand1.leerDatoWiegand())
     #hbl.enviarWiegand34(36739686)
     

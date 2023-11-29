@@ -1,0 +1,12 @@
+
+-callback dato listo wiegand entrada
+    llamar al callback en wiegand in cuando finalice la Comunicacion
+    si hay un callback definido en wiegand input
+
+-Comunicacion serial
+    hacerlo con un hilo, o investigar si hay una interrupcion de serial disponible
+
+-logs
+
+
+-json 

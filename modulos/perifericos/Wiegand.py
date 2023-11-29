@@ -1,5 +1,7 @@
 #from modulos.GPIOs import *
-from modulos.IO import *
+from modulos.perifericos.IO import *
+from configuracion.Settings import Wiegandcfg
+
 class WiegandModo(Enum):
     WIEGANDIN  = 0
     WIEGANDOUT = 1 
@@ -13,22 +15,25 @@ class WiegandModo(Enum):
         return f"{self.name}"
     
 
-class HBLWiegand(HBLIO):
-    def __init__(self,pines,modo : WiegandModo,gpios = None,name = None ) -> None:
-        super().__init__(pines,modo = modo,gpios=gpios,name=name)
-        #self._gpios : GPIOS = None
-        #if isinstance(pines,type(Enum)):
-        #    self.pins= [i.value for i in pines]
-        #
-        #elif isinstance(pines, int):
-        #    self.pins = [pines]
-        #elif isinstance(pines, list):
-        #    self.pins = pines   
-            
-class HBLWiegandOutput(HBLWiegand):
-    def __init__(self,pines,gpio : GPIOS = None) -> None:
-        super().__init__(pines,WiegandModo.WIEGANDOUT,gpio,name="WD OUT") 
-        #self._gpios = GPIOS(self.pins,WiegandModo.WIEGANDOUT,"W")
+class HBLWiegand():
+    
+    def  __init__(self):
+        pass
+          
+    def iniciar(self,pines,cfg : Wiegandcfg.W1cfg,gpios = None):
+        if cfg.modo == "IN":
+            self.w = HBLWiegandInput(pines,cfg,gpios)
+        elif cfg.modo =="OUT":
+            self.w = HBLWiegandOutput(pines,cfg,gpios)
+        else:
+            raise Exception(f"Error modo wiegand incorrecto: {cfg.modo}")
+        return self.w
+    
+class HBLWiegandOutput(HBLIO):
+    def __init__(self,pines,cfg : Wiegandcfg.W1cfg,gpios : GPIOS = None) -> None:
+        super().__init__(pines,WiegandModo.WIEGANDOUT,gpios,name="WD OUT") 
+        #self._gpios = HBLIO(pines,WiegandModo.WIEGANDOUT,gpio,"WD OUT")
+        self.cfg = cfg
         for pin in self.pins:
             self._gpios.setON(pin)
         
@@ -40,27 +45,23 @@ class HBLWiegandOutput(HBLWiegand):
         #variable = "10000000001000010011110011"
         #36739686 = 1000000100011000010011010011001101
 
-        print(" ")
-        print(variable)
-        print("1000000100011000010011010011001101")
-
         while i < 34:
                        
             if int(variable.format(valor)[i],2)  == 0: 
                 self._gpios.setOFF(self.pins[0])#pi.write(__gpio_0, 0) 
 
-                time.sleep(0.00005) # sleep delay fall (std : 0.00008)
+                time.sleep(self.cfg.delayPulso) # sleep delay fall (std : 0.00008)
 
                 self._gpios.setON(self.pins[0])#pi.write(__gpio_0, 1) 
-                time.sleep(0.001) # sleep delay rise (std : 0.00024) 
+                time.sleep(self.cfg.delayIntervalo) # sleep delay rise (std : 0.00024) 
                 #print("0")
             else: 
                 
                 self._gpios.setOFF(self.pins[1])#pi.write(__gpio_1, 0) 
-                time.sleep(0.00005) # sleep delay fall (std : 0.00008)
+                time.sleep(self.cfg.delayPulso) # sleep delay fall (std : 0.00008)
                 
                 self._gpios.setON(self.pins[1])#pi.write(__gpio_1, 1) 
-                time.sleep(0.001) # sleep delay rise (std : 0.00024)   
+                time.sleep(self.cfg.delayIntervalo) # sleep delay rise (std : 0.00024)   
                 #print("1")
             
             i = i + 1        
@@ -109,32 +110,31 @@ class HBLWiegandOutput(HBLWiegand):
         
         return f"WiegandOut:\n{self._gpios}"
 
-class HBLWiegandInput(HBLWiegand):
+class HBLWiegandInput(HBLIO):
     
-    def __init__(self,pines,gpios : GPIOS = None,callback = None) -> None:
-        super().__init__(pines,WiegandModo.WIEGANDIN,gpios,name="WD IN") 
-        #for pin in self.pins:
-        #    self._gpios.setOFF(pin)
-        
-        self.__gpio_0 = self.pins[0]
-        self.__gpio_1 = self.pins[1]
+    def __init__(self,pines,cfg : Wiegandcfg.W1cfg ,gpios : GPIOS = None,callback = None) -> None:
+            super().__init__(pines,WiegandModo.WIEGANDIN,gpios,name="WD IN") 
+            #for pin in self.pins:
+            #    self._gpios.setOFF(pin)
+            self.cfg = cfg
+            self.__gpio_0 = self.pins[0]
+            self.__gpio_1 = self.pins[1]
 
-        self.callback = callback
+            self.callback = callback
 
+            self.__config = True
 
-        self.__config = True
+            self.__datoWiegand = None
+            self.__formato = None
+            
+            self._gpios.setearModo(self.__gpio_0, GpioModo.INPUT)
+            self._gpios.setearModo(self.__gpio_1, GpioModo.INPUT)
 
-        self.__datoWiegand = None
-        self.__formato = None
-        
-        self._gpios.setearModo(self.__gpio_0, GpioModo.INPUT)
-        self._gpios.setearModo(self.__gpio_1, GpioModo.INPUT)
+            self._gpios.setearModo(self.__gpio_0, PUD.UP)
+            self._gpios.setearModo(self.__gpio_1, PUD.UP)
 
-        self._gpios.setearModo(self.__gpio_0, PUD.UP)
-        self._gpios.setearModo(self.__gpio_1, PUD.UP)
-
-        self._gpios.setCallback(self.__gpio_0, self._cb,Edges.FALLING_EDGE)
-        self._gpios.setCallback(self.__gpio_1, self._cb,Edges.FALLING_EDGE)
+            self._gpios.setCallback(self.__gpio_0, self._cb,Edges.FALLING_EDGE)
+            self._gpios.setCallback(self.__gpio_1, self._cb,Edges.FALLING_EDGE)
     
     def _cb(self, gpio, level, tick):
       
@@ -188,7 +188,7 @@ class HBLWiegandInput(HBLWiegand):
                 try:
                         numeroBinario = bin(numero)[2:].zfill(cantidadBits)   
                         
-                        id = int(numeroBinario.format(numero)[1:int(cantidadBits-1)],2) 
+                        id = int(numeroBinario.format(numero)[self.cfg.primerBit:int(cantidadBits-1)],2) 
                         self.__datoWiegand = id
                         self.__formato = cantidadBits
                 except: 

@@ -1,0 +1,51 @@
+{
+    "HBL":{
+        "idHBL": "3"
+    },
+    "wiegand": {
+        "W1": {
+            "activado": 1,
+            "modo": "IN",
+            "esperaSenial": 0,
+            "bitsSalida": 0,
+            "delayPulso": 5e-05,
+            "delayIntervalo": 0.002,
+            "primerBit": 1
+        },
+        "W2": {
+            "activado": 1,
+            "modo": "OUT",
+            "esperaSenial": 0,
+            "bitsSalida": 0,
+            "delayPulso": 0.0005,
+            "delayIntervalo": 0.001,
+            "primerBit": 9
+        }
+        
+    },
+    "serial": {
+        "COM1": {
+            "activado": 1,
+            "port": "/dev/serial0",
+            "baudrate": 9600,
+            "bytesize": 8,
+            "parity": "N",
+            "stopbits": 1
+        },
+        "COM2": {
+            "activado": 0,
+            "port": "/dev/ttyAMA2",
+            "baudrate": 9600,
+            "bytesize": 8,
+            "parity": "N",
+            "stopbits": 1
+        }
+    },
+    "display": {
+        "activado": 0,
+        "line0": "OCUPACION",
+        "line1": "0",
+        "line2": "",
+        "line3": "PWC  Acceso Castelli"
+    }
+}

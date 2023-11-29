@@ -1,0 +1,27 @@
+{
+    "logs": {
+        "pathBackup": "/backupLog/",
+        "tamanioRotator": 1024768,
+        "hblCore": "hblCore.log",
+        "hblConexiones": "hblConexiones.log",
+        "hblWiegand": "hblWiegand.log",
+        "hblTcp": "hblTcp.log",
+        "hblEntradas": "hblEntradas.log",
+        "hblHTTP": "hblHTTP.log",
+        "hblReporte": "hblReporte.log",
+        "hblhidDevice": "hblhidDevice.log",
+        "hbli2c": "hbli2c.log",
+        "hblFTP": "hblFTP.log",
+        "hblSerial": "hblSerial.log",
+        "hblCacheo": "hblCacheo.log",
+        "hblKiosco": "hblKiosco.log",
+        "hblTareas": "hblTareas.log",
+        "hblEsclusa": "hblEsclusa.log",
+        "hblMQTT": "hblMQTT.log",
+        "hblTimer": "hblTimer.log",
+        "hblPuerta": "hblPuerta.log",
+        "hblBioStar2_WebSocket": "hblBioStar2_WebSocket.log",
+        "hblMail": "hblMail.log",
+        "hblPruebaHBL": "hblPruebaHBL.log"
+    }
+}
