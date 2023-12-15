@@ -1,6 +1,7 @@
 import pigpio
 import os
 import time
+
 from enum import Enum
 
 flag  = True
@@ -25,8 +26,6 @@ class GpioModo(Enum):
     ALT3   = 7
     SERIAL = 8
     I2C    = 9
-    WIEGANDIN  = 0
-    WIEGANDOUT = 1
     def __repr__(self) -> str:
         return f"{self.name}"
 
@@ -81,23 +80,36 @@ class GPIOS():
         def getModeP(self): 
             return self._modo
         
+        def setName(self,name : str):
+            self._name = name
+        
         def __repr__(self) -> str:
 
             return f"{self._name} pin:{self._gpioNumero}  ( modo:{self._modo.name} valor:{self._valor} PUD:{self._PUD.name} )\n" 
         
 
-    def __init__(self,pines : list = None,
+    def __init__(self,pines  = None,
                  modo = GpioModo.OUTPUT,
                  name = None, 
                  pi = None) -> None:
+        
+            
         if pi == None:
             self.pi = pigpio.pi()
+            
         else:
             self.pi = pi
         self.pinesDisponibles : list [self._Pin]= []
         self.pinesOcupados = []
         if pines is not None:
-            self._initPines(pines,modo,name)
+            if isinstance(pines,type(Enum)):
+                self.pins= [i.value for i in pines]
+            elif isinstance(pines, int):
+                self.pins = [pines]
+            elif isinstance(pines, list):
+                self.pins = pines
+                
+            self._initPines(self.pins,modo,name)
         
 
     def __repr__(self) -> str:
@@ -131,6 +143,10 @@ class GPIOS():
             self.pinesDisponibles.remove(aux)
             print("eliminado")
             
+    def cantidad(self):
+        return self.pinesDisponibles.__len__()
+            
+                
     def _initPines(self,pines :list,modo,name = None) -> [_Pin]:
         #self.listaEnJson = range(2,27)
         i = 1
@@ -139,19 +155,22 @@ class GPIOS():
         
         ret = [] 
         if name == None:
-            name = modo.name
-            
+            name = modo.name   
+        
         for pin in pines:
             p = self._Pin(pin,modo,f"{name}:{i}")
-            self.pinesDisponibles.append(p)
-            self.setearModo(p._gpioNumero,p._modo)
-            self._updatePin(p)
-            i += 1
-            ret.append(p)
+            if not (p in self.pinesDisponibles):
+                self.pinesDisponibles.append(p)
+                if modo != GpioModo.SERIAL:
+                    self.setearModo(p._gpioNumero,p._modo)
+                self._updatePin(p)
+                
+                i += 1
+                ret.append(p)
+                
             
         return ret
-            
-            
+    
             
     def _updatePin(self, p : _Pin):
             p._modo = GpioModo(self.pi.get_mode(p._gpioNumero))
@@ -174,12 +193,14 @@ class GPIOS():
     def set_watchdog(self, gpioNumero : int,ms):
         self.pi.set_watchdog(gpioNumero,ms)
     
+    
+    
     def setearModo(self,gpioNumero,modo: GpioModo):
         #modo HBLGpios.INPUT ... INPUT, OUTPUT, ALT0, ALT1, ALT2, ALT3, ALT4, ALT5.
         pin = self._buscarGpio(gpioNumero)
         if pin != None:
-            self.pi.set_mode(pin._gpioNumero,modo.value)
-            pin.setModeP(GpioModo(self.pi.get_mode(pin._gpioNumero)))
+                self.pi.set_mode(pin._gpioNumero,modo.value)
+                pin.setModeP(GpioModo(self.pi.get_mode(pin._gpioNumero)))
         else:
             print("no se pudo setear el modo")
             return None

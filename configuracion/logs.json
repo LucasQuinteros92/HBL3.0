@@ -1,7 +1,7 @@
 {
     "logs": {
         "pathBackup": "/backupLog/",
-        "tamanioRotator": 1024768,
+        "tamañoArchivos": 1024768,
         "hblCore": "hblCore.log",
         "hblConexiones": "hblConexiones.log",
         "hblWiegand": "hblWiegand.log",

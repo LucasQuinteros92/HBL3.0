@@ -20,9 +20,14 @@ def agregarVariable(contenido,key,nivel,lista : list,nombreModulo = ""):
     
     return lista
 def agregarClase(contenido,nivel, lista :list ):
-    tabs = "\t"*nivel
-    lista.append(f"{tabs}class {contenido}cfg():\n")
-    
+
+    tabs = "\t"*(nivel)    
+    if nivel == 1:
+        lista.append(f"{tabs}class {contenido}():\n")
+        tabs = "\t"*(nivel+1) 
+        lista.append(f"{tabs}name = '{contenido}'\n")
+    else:
+        lista.append(f"{tabs}class {contenido}cfg():\n")
         
     
 def leerDiccionario(dicc : dict,_nombreModulo = "",_nivel = 0,lista :list = []):
