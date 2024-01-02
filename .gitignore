@@ -39,3 +39,17 @@ modulos/perifericos/__pycache__/SerialHbl.cpython-37.pyc
 .gitignore
 rutinas/__pycache__/Pruebas.cpython-37.pyc
 rutinas/__pycache__/SerialDNI.cpython-37.pyc
+db/__pycache__/BBDD.cpython-37.pyc
+modulos/aplicaciones/__pycache__/Barrera.cpython-37.pyc
+modulos/aplicaciones/__pycache__/LPR.cpython-37.pyc
+modulos/aplicaciones/__pycache__/Reloj.cpython-37.pyc
+modulos/aplicaciones/__pycache__/Websockets.cpython-37.pyc
+db/tVisitas.json
+rutinas/__pycache__/rutDobleFactor.cpython-37.pyc
+rutinas/__pycache__/rutLPR.cpython-37.pyc
+rutinas/__pycache__/rutSerialDNI.cpython-37.pyc
+modulos/HBLmodels.py
+rutinas/AccesoDobleFactor/__pycache__/ObjAux.cpython-37.pyc
+rutinas/AccesoDobleFactor/__pycache__/rutDobleFactor.cpython-37.pyc
+rutinas/AccesoLPR/__pycache__/ObjAux.cpython-37.pyc
+rutinas/AccesoLPR/__pycache__/rutAccesoLPR.cpython-37.pyc

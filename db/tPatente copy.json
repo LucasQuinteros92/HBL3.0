@@ -1,0 +1,23 @@
+{
+    "1":{
+        "id" : "1",
+        "patente": "AAA123",
+        "habilitado" : true,
+        "desde" : "7:00",
+        "hasta" : "22:00"
+    },
+    "2":{
+        "id" : "2",
+        "patente": "BBB123",
+        "habilitado" : true,
+        "desde" : "7:00",
+        "hasta" : "22:00"
+    },
+    "3":{
+        "id" : "3",
+        "patente": "CCC123",
+        "habilitado" : true,
+        "desde" : "7:00",
+        "hasta" : "22:00"
+    }
+}

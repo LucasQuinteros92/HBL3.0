@@ -28,6 +28,7 @@ class HBLModel():
         self.salidas    = HBLSalidas(gpios=self._gpios)
         self.leds       = HBLLeds(gpios=self._gpios)
         self.serial1    = HBLSerial(Serialcfg.Com1,gpios=self._gpios)
+        self.serial2    = HBLSerial(Serialcfg.Com2, gpios=self._gpios)
         self.wiegand1   = HBLWiegand().iniciar(Wiegandcfg.W1,gpios=self._gpios)
         self.wiegand2   = HBLWiegand().iniciar(Wiegandcfg.W2,gpios=self._gpios)
         self.displayLCD = HBLi2cDevice().iniciar(I2ccfg.Lcd20x4,gpios=self._gpios)
@@ -35,11 +36,12 @@ class HBLModel():
         
         log.escribeLineaLog(Logscfg.hblCore,self.__repr__(),date=True)
 
-        
 
     def stop(self):
         if self.serial1 != None:
             self.serial1.stop()
+        if self.serial2 != None:
+            self.serial2.stop()
         if self.displayLCD != None:
             self.displayLCD.stop()
 

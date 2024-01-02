@@ -35,7 +35,7 @@
         "wlan0": {
             "activado": 1,
             "hotspot": {
-                "activado": 1,
+                "activado": 0,
                 "ssid": "RPIHOTSPOT",
                 "wpa_passphrase": "Jphlions135"
             },
@@ -107,7 +107,7 @@
             "timeout": 1
         },
         "COM2": {
-            "activado": 0,
+            "activado": 1,
             "port": "/dev/ttyAMA2",
             "baudrate": 9600,
             "bytesize": 8,
@@ -163,31 +163,48 @@
     "logs": {
         "pathBackup": "/backupLog/",
         "tamañoArchivos": 1024768,
-        "hblCore": "hblCore.log",
-        "hblConexiones": "hblConexiones.log",
-        "hblWiegand": "hblWiegand.log",
-        "hblTcp": "hblTcp.log",
-        "hblEntradas": "hblEntradas.log",
-        "hblHTTP": "hblHTTP.log",
-        "hblReporte": "hblReporte.log",
-        "hblhidDevice": "hblhidDevice.log",
-        "hbli2c": "hbli2c.log",
-        "hblFTP": "hblFTP.log",
-        "hblSerial": "hblSerial.log",
-        "hblCacheo": "hblCacheo.log",
-        "hblKiosco": "hblKiosco.log",
-        "hblTareas": "hblTareas.log",
-        "hblEsclusa": "hblEsclusa.log",
-        "hblMQTT": "hblMQTT.log",
-        "hblTimer": "hblTimer.log",
-        "hblPuerta": "hblPuerta.log",
-        "hblBioStar2_WebSocket": "hblBioStar2_WebSocket.log",
-        "hblMail": "hblMail.log",
-        "hblPruebaHBL": "hblPruebaHBL.log",
-        "rutinaPrueba" : "rutinaPrueba.log",
-        "SerialDNI"    : "SerialDNI.log"
+        "hblCore"           : "hblCore.log",
+        "hblConexiones"     : "hblConexiones.log",
+        "hblWiegand"        : "hblWiegand.log",
+        "hblTcp"            : "hblTcp.log",
+        "hblEntradas"       : "hblEntradas.log",
+        "hblHTTP"           : "hblHTTP.log",
+        "hblReporte"        : "hblReporte.log",
+        "hblhidDevice"      : "hblhidDevice.log",
+        "hbli2c"            : "hbli2c.log",
+        "hblFTP"            : "hblFTP.log",
+        "hblSerial"         : "hblSerial.log",
+        "hblCacheo"         : "hblCacheo.log",
+        "hblKiosco"         : "hblKiosco.log",
+        "hblTareas"         : "hblTareas.log",
+        "hblEsclusa"        : "hblEsclusa.log",
+        "hblMQTT"           : "hblMQTT.log",
+        "hblTimer"          : "hblTimer.log",
+        "hblPuerta"         : "hblPuerta.log",
+        "hblWebSocket"      : "hblWebSocket.log",
+        "hblMail"           : "hblMail.log",
+        "hblPruebaHBL"      : "hblPruebaHBL.log",
+        "rutinaPrueba"      : "rutinaPrueba.log",
+        "SerialDNI"         : "SerialDNI.log",
+        "rutinaDobleFactor" : "dobleFactor.log",
+        "BBDDJSON"          : "BBDDJSON.log"
     },
     "LPR":{
         "serial" : "pepe"
+    },
+    "BBDD":{
+        "tablaVisitas"       : "db/tVisitas.json",
+        "tablaPersonas"      : "db/tPersonas.json",
+        "tablaPatentes"      : "db/tVehiculos.json"
+    },
+    "WebSocket": {
+        "activado": 1,
+        "host": "wss://visitas-dev.jphlions.com/websocket-server/websocket/",
+        "api_Host": " wss://visitas-dpwsa.jphlions.com/websocket/websocket",
+        "header": "Sec-WebSocket-Protocol:echo-protocol",
+        "token": "ABC1234",
+        "clientId": "100000002",
+        "clientName": "HBL2",
+        "eventosGuardadosPath" : "logs/eventosNoEnviados.json"
     }
 }

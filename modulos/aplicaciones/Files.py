@@ -1,3 +1,5 @@
+
+
 def append_multiple_lines(file_name, lines_to_append, tipoApertura):
     
 
@@ -25,3 +27,4 @@ def borrarArchivo(file_name):
     
     with open(file_name,"w") as f:
         pass
+    

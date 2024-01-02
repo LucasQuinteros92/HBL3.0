@@ -32,9 +32,6 @@ class HBLIO():
             self._gpios = GPIOS(self._pins, modo,name=name)
         else:
             self._gpios = GPIOS(self._pins, modo,pi=gpios.pi,name=name)
-
-    def setCallback(self, gpio : int ,callback ,edge : Edges):
-        self._gpios.setCallback(gpio,callback,edge)
         
     def getGpio(self,gpio :int = None) :
         return self._gpios.leerGpio(gpio)
@@ -78,30 +75,30 @@ class HBLSalidas(HBLIO):
         return ret'''
         
     
-    def activarSalida(self,gpio = None):
+    def activarSalida(self,gpio = None,inverted =False):
         if gpio == None:
             if self._gpios.cantidad() == 1:
                 gpio = self._gpios.pinesDisponibles[0]._gpioNumero
-                self._gpios.setON(gpio)
+                self._gpios.setON(gpio,inverted)
             else:
                 raise Exception("debe especificarse una salida para activar")
         else:
-            self._gpios.setON(gpio)
+            self._gpios.setON(gpio,inverted)
         
-    def desactivarSalida(self,gpio = None):
+    def desactivarSalida(self,gpio = None,inverted = False):
         if gpio == None:
             if self._gpios.cantidad() == 1:
                 gpio = self._gpios.pinesDisponibles[0]._gpioNumero
-                self._gpios.setOFF(gpio)
+                self._gpios.setOFF(gpio,inverted)
             else:
                 raise Exception("debe especificarse una salida para desactivar")
         else:
-            self._gpios.setOFF(gpio)
+            self._gpios.setOFF(gpio,inverted)
             
         
-    def buscarSalida(self, led : int):
-        if led in self._pins:
-            return HBLSalidas(led,self._gpios)
+    def buscarSalida(self, out : int):
+        if out in self._pins:
+            return HBLSalidas(out,self._gpios)
         else: 
             raise Exception("La salida no existe o no esta configurada")
     
@@ -179,7 +176,7 @@ class HBLEntradas(HBLIO):
         def __get__(self,instance,owner):
             return self.value
     def __init__(self,modelo,gpios : GPIOS = None) -> None:
-        
+       
 
         if modelo == 0:
             super().__init__(self.EntradasV0,GpioModo.INPUT,gpios=gpios)
@@ -195,7 +192,17 @@ class HBLEntradas(HBLIO):
         
         return f"Entradas:\n{self._gpios}"
 
-
+    def buscarEntrada(self, input : int):
+        if input in self._pins:
+            return HBLIO(input,modo=GpioModo.INPUT,gpios=self._gpios)
+        else: 
+            raise Exception("La entrada no existe o no esta configurada")
+    
+    def setCallback(self, gpio: int, callback, edge: Edges):
+        return self._gpios.setCallback(gpio, callback, edge)
+    
+    def set_watchdog(self,gpioNumero:int,ms):
+        return self._gpios.set_watchdog(gpioNumero,ms)
 
 if __name__ == "__main__":
     pass

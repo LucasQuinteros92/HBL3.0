@@ -4,25 +4,31 @@ from modulos.aplicaciones.Heartbeat import Heartbeat
 from  modulos.aplicaciones.logs import LogReport as log
 
 def rutinaPrueba():
-    hbl = HBLnuevo()
+    hbl = HBLViejo()
     #log = log("rutinaPrueba")
     
     print(hbl)
-    led1 = hbl.leds.buscarLed(hbl.Leds.Led1)
+    led1 = hbl.leds.buscarLed(hbl.leds.Leds.Led1)
     heart = Heartbeat(led1)
-    #log.EscribirLinea(Logscfg.rutinaPrueba)
-    
-    salida1 = hbl.salidas.buscarSalida(hbl.Salidas.OUT1)
-    salida1.activarSalida()
-    hbl.salidas
-    #led1.encender()
+
+    w  = hbl.wiegand1
+    w2 = hbl.wiegand2
     
     log.escribeLineaLog(Logscfg.rutinaPrueba,"rutina de prueba iniciada",log.Colors.GREEN,True)
     time.sleep(5)
     heart.changeDelay(0.1)
+    
     log.escribeLineaLog(Logscfg.rutinaPrueba,"rutina de prueba finalizada",log.Colors.RED,True)
     print(hbl)
     print(heart)
+    
+    while True:
+        if w.wiegandDisponible():
+            
+            print(f"canal1: {w.leerDatoWiegand()}")
+        
+        if w2.wiegandDisponible():
+             print(f"canal2: {w2.leerDatoWiegand()}")
     
     hbl.stop()
     heart.stop()

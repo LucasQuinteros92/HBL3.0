@@ -248,12 +248,15 @@ class GPIOS():
         self.pi.write(p._gpioNumero, valor)
         p.setValorP(valor)
         
-    def setON(self, gpioNumero):
+    def setON(self, gpioNumero, inverted = False):
         ret = ""
         p = self._buscarGpio(gpioNumero)
         if p is not None:
             if  p.checkMode(GpioModo.OUTPUT):
-                self.setOutput(p, 1)
+                if inverted: 
+                    self.setOutput(p, 0)
+                else:
+                    self.setOutput(p, 1)
                 ret = None
             else:
                 ret = f"ERROR: el pin {gpioNumero} no esta configurado como salida\n"
@@ -261,12 +264,15 @@ class GPIOS():
             ret = f"ERROR: El pin {gpioNumero} no existe\n"
         return ret
     
-    def setOFF(self,gpioNumero):
+    def setOFF(self,gpioNumero,inverted = False):
         ret = ""
         p = self._buscarGpio(gpioNumero)
         if p is not None:
             if p.checkMode( GpioModo.OUTPUT ):
-                self.setOutput(p,0)
+                if inverted: 
+                    self.setOutput(p, 1)
+                else:
+                    self.setOutput(p, 0)
                 ret = None
             else:
                 ret = f"ERROR: el pin {gpioNumero} no esta configurado como salida\n"

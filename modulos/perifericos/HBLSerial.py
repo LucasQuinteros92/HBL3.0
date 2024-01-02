@@ -4,7 +4,7 @@ from modulos.perifericos.IO import HBLIO
 from configuracion.Settings import Serialcfg,Logscfg
 from modulos.aplicaciones.logs import LogReport as log
 from threading import Thread
-import serial
+import serial,threading
 '''
     recordar habilitar las uart en /boot/config.txt
 '''
@@ -25,20 +25,24 @@ class ttyS0(COM):
         self.pines = [15,14]
         self.gpioModo = GpioModo.ALT5
         
+class ttyAMA2(COM):
+    def __init__(self) -> None:
+        super().__init__("/dev/ttyAMA2",5,4)
+        self.pines = [5,4]
+        self.gpioModo = GpioModo.ALT4 
 class HBLSerial(HBLIO):
     
     def __init__(self,cfg :Serialcfg.Com1= None,gpios :GPIOS = None ) -> None:
-        
-        
-        
+        self._cfg = cfg
+        self._data = ""
         if cfg.activado:
-            self.cfg = cfg
-            self.com = self.__obtenerSerial(cfg.port)
-            super().__init__(self.com.pines,GpioModo.SERIAL,gpios,self.com.nombre)
-            self.name = self.com.nombre
-            self.__setearPinSerial(self.com.Rx,self.com.gpioModo,"Rx")
-            self.__setearPinSerial(self.com.Tx,self.com.gpioModo,"Tx")
-            self.data = ""
+            
+            self._com = self.__obtenerSerial(self._cfg.port)
+            super().__init__(self._com.pines,GpioModo.SERIAL,gpios,self._com.nombre)
+            self.name = self._com.nombre
+            self.__setearPinSerial(self._com.Rx,self._com.gpioModo,"Rx")
+            self.__setearPinSerial(self._com.Tx,self._com.gpioModo,"Tx")
+            
             
             self.__running = True
             
@@ -59,26 +63,31 @@ class HBLSerial(HBLIO):
     def __obtenerSerial(self,name):
         if name == ttyS0().nombre:
             return ttyS0()
+        elif name == ttyAMA2().nombre:
+            return ttyAMA2()
     
     def iniciarSerial(self):
-        if self.cfg.activado:
-            self.ser = serial.Serial(port =  self.cfg.port,
-                                baudrate= self.cfg.baudrate,
-                                bytesize= self.cfg.bytesize,
-                                parity =  self.cfg.parity,
-                                stopbits= self.cfg.stopbits,
-                                timeout=  self.cfg.timeout)
+        if self._cfg.activado:
+            self.ser = serial.Serial(port =  self._cfg.port,
+                                baudrate= self._cfg.baudrate,
+                                bytesize= self._cfg.bytesize,
+                                parity =  self._cfg.parity,
+                                stopbits= self._cfg.stopbits,
+                                timeout=  self._cfg.timeout)
             
             log.escribeLineaLog(Logscfg.hblSerial,
                                                     f"Serial {self.name} iniciado",date=True)
+            self._data = ""
             self.t.start()
             self.ser.flushInput()
+            
     def stop(self):
         self.__running = False
     def __run(self):
         
         while self.__running:
-            
+                if not threading.main_thread().is_alive():
+                    self.__running = False
                 try:
                         
                         data  = self.ser.readline()
@@ -87,9 +96,9 @@ class HBLSerial(HBLIO):
                             #print(data.decode(errors='ignore'))
                             data = data.decode(encoding='utf-8',errors='ignore').strip().replace("\x00", "")
                             if data.__len__() > 0:
-                                self.data = data
+                                self._data = data
                                 log.escribeLineaLog(Logscfg.hblSerial,
-                                                    f"Datos recibidos:{self.data}",date=True)
+                                                    f"Datos recibidos:{self._data}",date=True)
                             
                 except Exception as e:
                     print(e)
@@ -99,11 +108,11 @@ class HBLSerial(HBLIO):
         #print("serial stopped")
                 
     def hayDatanueva(self) -> bool:
-        return  self.data != ""
+        return  self._data != ""
     
     def leerSerial(self) -> str:
-        data = self.data
-        self.data = ""
+        data = self._data
+        self._data = ""
         return data
     
     def __repr__(self) -> str:

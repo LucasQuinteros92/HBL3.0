@@ -1,0 +1,15 @@
+{
+    "1":{
+        "personaid" : "1",
+        "patentesid" : ["1","2"]
+    },
+    "2":{
+        "personaid" : "2",
+        "patentesid" : ["3"]
+    },
+    "3":{
+        "personaid" : "2",
+        "patentesid" : ["3"]
+    }
+
+}

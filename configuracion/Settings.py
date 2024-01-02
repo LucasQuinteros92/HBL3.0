@@ -44,7 +44,7 @@ class Networkcfg():
 		name = 'Wlan0'
 		activado = 1
 		class Hotspotcfg():
-			activado = 1
+			activado = 0
 			ssid = 'RPIHOTSPOT'
 			wpa_passphrase = 'Jphlions135'
 
@@ -122,7 +122,7 @@ class Serialcfg():
 
 	class Com2():
 		name = 'Com2'
-		activado = 0
+		activado = 1
 		port = '/dev/ttyAMA2'
 		baudrate = 9600
 		bytesize = 8
@@ -201,13 +201,32 @@ class Logscfg():
 	hblMQTT = 'hblMQTT.log'
 	hblTimer = 'hblTimer.log'
 	hblPuerta = 'hblPuerta.log'
-	hblBioStar2_WebSocket = 'hblBioStar2_WebSocket.log'
+	hblWebSocket = 'hblWebSocket.log'
 	hblMail = 'hblMail.log'
 	hblPruebaHBL = 'hblPruebaHBL.log'
 	rutinaPrueba = 'rutinaPrueba.log'
 	SerialDNI = 'SerialDNI.log'
+	rutinaDobleFactor = 'dobleFactor.log'
+	BBDDJSON = 'BBDDJSON.log'
 
 #######LPR######
 class Lprcfg():
 	serial = 'pepe'
+
+#######BBDD######
+class Bbddcfg():
+	tablaVisitas = 'db/tVisitas.json'
+	tablaPersonas = 'db/tPersonas.json'
+	tablaPatentes = 'db/tVehiculos.json'
+
+#######WEBSOCKET######
+class Websocketcfg():
+	activado = 1
+	host = 'wss://visitas-dev.jphlions.com/websocket-server/websocket/'
+	api_Host = ' wss://visitas-dpwsa.jphlions.com/websocket/websocket'
+	header = 'Sec-WebSocket-Protocol:echo-protocol'
+	token = 'ABC1234'
+	clientId = '100000002'
+	clientName = 'HBL2'
+	eventosGuardadosPath = 'logs/eventosNoEnviados.json'
 

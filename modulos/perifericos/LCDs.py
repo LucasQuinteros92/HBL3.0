@@ -1,7 +1,7 @@
 from modulos.perifericos.I2c import *
 from threading import Thread,Semaphore
 from queue import Queue
-
+import threading
 
 class LCD20x4(I2c):
     
@@ -228,6 +228,8 @@ class LCD20x4(I2c):
     
     def run(self):
         while self.__running:
+            if not threading.main_thread().is_alive():
+                self.__running = False
             try:
                 if self.error:
                     self.reiniciar()

@@ -1,0 +1,86 @@
+{
+    "1": {
+        "evento": "",
+        "datos": {
+            "clientId": "100000002",
+            "msgId": 1703186021,
+            "data": {
+                "evento": "actualizacionConfig",
+                "datos": {
+                    "nombre": "DOBLE_FACTOR_VALIDACION",
+                    "valor": true
+                },
+                "msgId": 1703186021
+            },
+            "status": 1
+        },
+        "msgId": 1703186021
+    },
+    "2": {
+        "evento": "",
+        "datos": {
+            "clientId": "100000002",
+            "msgId": 1703186032,
+            "data": {
+                "evento": "actualizacionConfig",
+                "datos": {
+                    "nombre": "DOBLE_FACTOR_VALIDACION",
+                    "valor": false
+                },
+                "msgId": 1703186032
+            },
+            "status": 1
+        },
+        "msgId": 1703186032
+    },
+    "3": {
+        "evento": "nuevoIngreso",
+        "datos": {
+            "Persona": "36739686",
+            "Vehiculo": "",
+            "fechaHora": 1703186037.713578,
+            "clientId": "100000002",
+            "clientName": "HBL2"
+        },
+        "msgId": 1703186037.713578
+    },
+    "4": {
+        "evento": "nuevoIngreso",
+        "datos": {
+            "Persona": null,
+            "Vehiculo": "",
+            "fechaHora": 1703186044.768886,
+            "clientId": "100000002",
+            "clientName": "HBL2"
+        },
+        "msgId": 1703186044.768886
+    },
+    "5": {
+        "evento": "nuevoIngreso",
+        "datos": {
+            "Persona": "36739686",
+            "Vehiculo": "",
+            "fechaHora": 1703186054.860256,
+            "clientId": "100000002",
+            "clientName": "HBL2"
+        },
+        "msgId": 1703186054.860256
+    },
+    "6": {
+        "evento": "",
+        "datos": {
+            "clientId": "100000002",
+            "msgId": 1703186057,
+            "data": {
+                "evento": "actualizacionConfig",
+                "datos": {
+                    "nombre": "DOBLE_FACTOR_VALIDACION",
+                    "valor": true
+                },
+                "msgId": 1703186057
+            },
+            "status": 1
+        },
+        "msgId": 1703186057
+    }
+}

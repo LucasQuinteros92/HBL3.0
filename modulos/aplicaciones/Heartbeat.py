@@ -1,6 +1,6 @@
 from threading import Thread
 from modulos.perifericos.IO import HBLLeds
-import time
+import time,threading
 
 
 class Heartbeat(object):
@@ -17,6 +17,8 @@ class Heartbeat(object):
     def heartBeat(self):
 
         while self.__running:
+            if not threading.main_thread().is_alive():
+                self.__running = False
             self.led.encender()
             time.sleep(self.delay)
             
